@@ -56,15 +56,22 @@ export class Board {
     return true;
   }
 
-  // Credits to https://codepen.io/unindented/pen/QNWdRQ
+  // Credits to https://cp-algorithms.com/others/15-puzzle.html#existence-of-the-solution
   isSolvable() {
-    let product = 1;
-    for (let i = 1, l = this.tiles.length - 1; i <= l; i++) {
-      for (let j = i + 1, m = l + 1; j <= m; j++) {
-        product *= (this.tiles[i - 1] - this.tiles[j - 1]) / (i - j);
+    let inv = 0;
+    for (let i = 0; i < 16; ++i) {
+      if (this.tiles[i].getNumber() !== 0) {
+        for (let j = 0; j < i; ++j) {
+          if (this.tiles[j].getNumber() > this.tiles[i].getNumber()) ++inv;
+        }
       }
     }
-    return Math.round(product) === 1;
+    for (let i = 0; i < 16; ++i) {
+      if (this.tiles[i].getNumber() === 0) {
+        inv += 1 + i / 4;
+      }
+    }
+    return inv & 1;
   }
 
   tileIndexToCoordinates(tileIndex) {
