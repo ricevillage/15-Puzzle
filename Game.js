@@ -60,6 +60,7 @@ export class Game {
   makeMove(tileIndex) {
     if (this.isSolved()) {
       movesSpan.innerText = `Solved in ${this.getMoves()} Moves`;
+      pauseTimer();
       return;
     }
 
