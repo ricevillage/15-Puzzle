@@ -12,16 +12,27 @@
     />
   </head>
   <body>
-    <div id="headerDiv">
+    <div id="title">
       <h2>15 Puzzle</h2>
-      <p id="numberOfMoves">Moves: 0</p>
     </div>
-    <div id="board-container">
-      <div id="board"></div>
+
+    <div class="info-box">
+      <div class="timer">Time: <span id="timer">00:00</span></div>
+      <div class="moves">Moves: <span id="moves">0</span></div>
     </div>
-    <div id="buttons">
-      <img id="keyboardArrows" src="keyboardArrows.svg" alt="keyboardArrows" />
+
+    <div id="button-container">
+      <button id="playButton">Play</button>
+      <button id="pauseButton">Pause</button>
       <button id="restartButton">Restart</button>
+    </div>
+
+    <div id="board-container">
+      <div id="overlay">
+        <h1 id="overlay-play">Play</h1>
+        <h1 id="overlay-pause">Paused</h1>
+      </div>
+      <div id="board"></div>
     </div>
     <script type="module" src="script.js"></script>
   </body>

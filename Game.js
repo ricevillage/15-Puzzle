@@ -1,12 +1,16 @@
 import { Board } from "./Board.js";
 import { TILE_COUNT } from "./Board.js";
-const moveCounter = document.getElementById("numberOfMoves");
+
+const movesSpan = document.getElementById("moves");
 
 export class Game {
   constructor() {
     this.board = new Board();
     this.moves = 0;
     this.setupKeyboardListeners();
+    this.intervalId;
+    this.elapsedTime = 0;
+    this.timerRunning = false;
   }
 
   start() {
@@ -17,7 +21,9 @@ export class Game {
   restart() {
     this.board = new Board();
     this.moves = 0;
-    moveCounter.innerText = `Moves: ${this.getMoves()}`;
+    movesSpan.innerText = this.getMoves();
+    this.resetTimer();
+    this.startTimer();
     this.start();
   }
 
@@ -25,15 +31,41 @@ export class Game {
     this.board = null;
   }
 
+  startTimer() {
+    if (this.timerRunning) return;
+    this.timerRunning = true;
+    this.intervalId = setInterval(() => {
+      this.elapsedTime++;
+      const minutes = Math.floor(this.elapsedTime / 60);
+      const seconds = this.elapsedTime % 60;
+      const formattedTime = `Time: ${String(minutes).padStart(2, "0")}:${String(
+        seconds
+      ).padStart(2, "0")}`;
+      document.querySelector(".timer").innerHTML = formattedTime;
+    }, 1000);
+  }
+
+  resetTimer() {
+    clearInterval(this.intervalId);
+    this.timerRunning = false;
+    this.intervalId = null;
+    this.elapsedTime = 0;
+  }
+
+  pauseTimer() {
+    clearInterval(this.intervalId);
+    this.timerRunning = false;
+  }
+
   makeMove(tileIndex) {
     if (this.isSolved()) {
-      moveCounter.innerText = `Solved in ${this.getMoves()} Moves`;
+      movesSpan.innerText = `Solved in ${this.getMoves()} Moves`;
       return;
     }
 
     if (this.board.moveTile(tileIndex)) {
       this.moves++;
-      moveCounter.innerText = `Moves: ${this.getMoves()}`;
+      movesSpan.innerText = this.getMoves();
       this.render();
     }
   }

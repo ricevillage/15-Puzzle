@@ -1,34 +1,96 @@
-#headerDiv {
+body {
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+h2 {
+  color: #ffc107;
+  background-color: #6d7993;
+  font-size: 30px;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.info-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.timer,
+.moves {
+  text-align: center;
+  margin: 0 10px;
+  background-color: #ffc107;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 #board-container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-#board {
-  display: flex;
-  flex-wrap: wrap;
-  width: 300px;
-  height: 300px;
-  background-color: #6d7993;
-  /* border: 2px solid black; */
-  border-radius: 10px;
-}
-
-#buttons {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+#board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 400px;
+  height: 400px;
+  background-color: #6d7993;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#overlay {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  padding: 10px;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.preGameOverlay {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#overlay > h1 {
+  color: white;
+  font-size: 100px;
+}
+
+#overlay-pause {
+  display: none;
+}
+
+#button-container {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-direction: row;
+}
+
+#button-container > button {
+  margin: 10px;
+}
+
 .tile {
-  width: calc(100% / 4);
-  height: calc(100% / 4);
+  width: 90px;
+  height: 90px;
+  margin: 5px;
   background-color: #ffc107;
   transition: background-color 0.3s ease;
   border-radius: 10px;
@@ -47,8 +109,9 @@
   -moz-user-select: none; /*Firefox*/
 }
 
-#keyboardArrows {
-  width: 8%;
-  height: 8%;
-  margin: 20px;
+@media (min-width: 320px) and (max-width: 480px) {
+  /* CSS */
+  #board-container {
+    display: block;
+  }
 }
