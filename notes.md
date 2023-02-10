@@ -21,3 +21,6 @@ Class: Game
 * start(): void
 * restart(): void
 * quit(): void
+
+solution checker:
+https://codepen.io/blouberry/details/ExxjyEB

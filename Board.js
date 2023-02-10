@@ -22,8 +22,7 @@ export class Board {
       (tile) => tile.getNumber() === TILE_COUNT
     );
 
-    // console.log(!this.isSolvable());
-    if (!this.isSolvable()) this.shuffle();
+    if (!this.isSolvable() || this.isSolved()) this.shuffle();
   }
 
   // moves a tile to the empty tile position if the move is valid (the tile is next to the empty tile).
@@ -57,23 +56,17 @@ export class Board {
     return true;
   }
 
-  // Credits to https://cp-algorithms.com/others/15-puzzle.html#existence-of-the-solution
+  // Credits to https://codepen.io/unindented/pen/QNWdRQ
   isSolvable() {
-    let inv = 0;
-    for (let i = 0; i < 16; ++i) {
-      if (i !== this.emptyTileIndex) {
-        for (let j = 0; j < i; ++j) {
-          if (this.tiles[j].getNumber() > this.tiles[i].getNumber()) ++inv;
-        }
+    let product = 1;
+    for (let i = 1, l = TILE_COUNT - 1; i <= l; i++) {
+      for (let j = i + 1, m = l + 1; j <= m; j++) {
+        product *=
+          (this.tiles[i - 1].getNumber() - this.tiles[j - 1].getNumber()) /
+          (i - j);
       }
     }
-    for (let i = 0; i < 16; ++i) {
-      if (i == this.emptyTileIndex) {
-        inv += 1 + i / 4;
-      }
-    }
-    // console.log(inv & 1, inv & 1 ? "No Solution" : "Solution Exists");
-    return !(inv & 1);
+    return Math.round(product) === 1;
   }
 
   tileIndexToCoordinates(tileIndex) {
