@@ -22,7 +22,8 @@ export class Board {
       (tile) => tile.getNumber() === TILE_COUNT
     );
 
-    if (this.isSolvable() === 0) this.shuffle();
+    // console.log(!this.isSolvable());
+    if (!this.isSolvable()) this.shuffle();
   }
 
   // moves a tile to the empty tile position if the move is valid (the tile is next to the empty tile).
@@ -60,18 +61,19 @@ export class Board {
   isSolvable() {
     let inv = 0;
     for (let i = 0; i < 16; ++i) {
-      if (this.tiles[i].getNumber() !== 0) {
+      if (i !== this.emptyTileIndex) {
         for (let j = 0; j < i; ++j) {
           if (this.tiles[j].getNumber() > this.tiles[i].getNumber()) ++inv;
         }
       }
     }
     for (let i = 0; i < 16; ++i) {
-      if (this.tiles[i].getNumber() === 0) {
+      if (i == this.emptyTileIndex) {
         inv += 1 + i / 4;
       }
     }
-    return inv & 1;
+    // console.log(inv & 1, inv & 1 ? "No Solution" : "Solution Exists");
+    return !(inv & 1);
   }
 
   tileIndexToCoordinates(tileIndex) {

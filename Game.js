@@ -58,16 +58,16 @@ export class Game {
   }
 
   makeMove(tileIndex) {
-    if (this.isSolved()) {
-      movesSpan.innerText = `Solved in ${this.getMoves()} Moves`;
-      pauseTimer();
-      return;
-    }
-
     if (this.board.moveTile(tileIndex)) {
       this.moves++;
       movesSpan.innerText = this.getMoves();
       this.render();
+    }
+
+    if (this.isSolved()) {
+      movesSpan.innerText = `Solved in ${this.getMoves()} Moves`;
+      this.pauseTimer();
+      return;
     }
   }
 
