@@ -62,7 +62,7 @@ window.onload = function () {
   const moves = localStorage.getItem("bestMoves");
 
   if (time) {
-    document.getElementById("best-timer").innerHTML = time;
+    document.getElementById("best-timer").innerHTML = game.formatTime(time);
   }
   if (moves) {
     document.getElementById("best-move").innerHTML = moves;

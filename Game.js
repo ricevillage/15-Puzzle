@@ -37,13 +37,8 @@ export class Game {
     this.timerRunning = true;
     this.intervalId = setInterval(() => {
       this.elapsedTime++;
-      const minutes = Math.floor(this.elapsedTime / 60);
-      const seconds = this.elapsedTime % 60;
-      this.formattedTime = `${String(minutes).padStart(2, "0")}:${String(
-        seconds
-      ).padStart(2, "0")}`;
+      this.formattedTime = this.formatTime(this.elapsedTime);
       document.getElementById("timer").innerHTML = this.formattedTime;
-      console.log(this.getUnformatedTime());
     }, 1000);
   }
 
@@ -68,7 +63,7 @@ export class Game {
 
     if (this.isSolved()) {
       const currentMoves = this.getMoves();
-      const currentTime = this.getUnformatedTime();
+      const currentTime = this.unformatTime(this.getTime());
 
       const bestTime = localStorage.getItem("bestTime") || Infinity;
       const bestMoves = localStorage.getItem("bestMoves") || Infinity;
@@ -82,7 +77,8 @@ export class Game {
         localStorage.setItem("bestTime", currentTime);
         localStorage.setItem("bestMoves", currentMoves);
 
-        document.getElementById("best-timer").innerHTML = this.getTime();
+        document.getElementById("best-timer").innerHTML =
+          this.formatTime(currentTime);
         document.getElementById("best-move").innerHTML = currentMoves;
       }
 
@@ -105,11 +101,20 @@ export class Game {
     }
   }
 
-  getUnformatedTime() {
-    const [minutes, seconds] = this.formattedTime
+  unformatTime(formattedTime) {
+    const [minutes, seconds] = formattedTime
       .split(":")
       .map((val) => parseInt(val));
     return minutes * 60 + seconds;
+  }
+
+  formatTime(timeInSeconds) {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
+      seconds
+    ).padStart(2, "0")}`;
+    return formattedTime;
   }
 
   isSolved() {

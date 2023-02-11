@@ -10,7 +10,6 @@ h2 {
   font-size: 30px;
   font-weight: bold;
   border-radius: 10px;
-  padding: 10px;
 }
 
 .info-box {
@@ -28,6 +27,15 @@ h2 {
   background-color: #ffc107;
   border-radius: 10px;
   padding: 10px;
+}
+
+.score {
+  display: flex;
+  align-items: center;
+}
+
+.score > p {
+  border: 2px solid #6d7993;
 }
 
 #board-container {
@@ -125,5 +133,11 @@ h2 {
   .tile {
     width: 22%;
     height: 22%;
+  }
+
+  .timer,
+  .moves,
+  .score {
+    padding: 5px;
   }
 }
