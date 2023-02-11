@@ -56,17 +56,25 @@ export class Board {
     return true;
   }
 
-  // Credits to https://codepen.io/unindented/pen/QNWdRQ
+  // https://en.wikipedia.org/wiki/15_puzzle#Alternate_proof
   isSolvable() {
-    let product = 1;
-    for (let i = 1, l = TILE_COUNT - 1; i <= l; i++) {
-      for (let j = i + 1, m = l + 1; j <= m; j++) {
-        product *=
-          (this.tiles[i - 1].getNumber() - this.tiles[j - 1].getNumber()) /
-          (i - j);
+    const [emptyTileRow] = this.tileIndexToCoordinates(this.emptyTileIndex);
+
+    let inversionCount = 0;
+    for (let i = 0; i < this.tiles.length; i++) {
+      for (let j = i + 1; j < this.tiles.length; j++) {
+        if (
+          this.tiles[i].getNumber() > this.tiles[j].getNumber() &&
+          this.tiles[i].getNumber() !== TILE_COUNT &&
+          this.tiles[j].getNumber() !== TILE_COUNT
+        ) {
+          inversionCount++;
+        }
       }
     }
-    return Math.round(product) === 1;
+
+    // console.log(inversionCount, emptyTileRow + 1);
+    return (inversionCount + emptyTileRow + 1) % 2 === 0;
   }
 
   tileIndexToCoordinates(tileIndex) {

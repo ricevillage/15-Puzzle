@@ -66,7 +66,7 @@ export class Game {
 
     if (this.isSolved()) {
       movesSpan.innerText = `Solved in ${this.getMoves()} Moves`;
-      this.pauseTimer();
+      this.resetTimer();
       return;
     }
   }
