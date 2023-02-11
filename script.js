@@ -31,7 +31,7 @@ createTiles();
 game.start();
 
 playButton.addEventListener("click", () => {
-  if (game.timerRunning) return;
+  if (game.timerRunning || game.isSolved()) return;
   preGameOverlay.style.display = "none";
   game.startTimer();
 });
@@ -45,7 +45,7 @@ pauseButton.addEventListener("click", () => {
 });
 
 restartButton.addEventListener("click", () => {
-  if (game.timerRunning) {
+  if (game.timerRunning || game.isSolved()) {
     game.restart();
   }
 });
