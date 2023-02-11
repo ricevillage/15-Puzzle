@@ -56,3 +56,15 @@ preGameOverlay.addEventListener("click", () => {
     game.startTimer();
   }
 });
+
+window.onload = function () {
+  const time = localStorage.getItem("bestTime");
+  const moves = localStorage.getItem("bestMoves");
+
+  if (time) {
+    document.getElementById("best-timer").innerHTML = time;
+  }
+  if (moves) {
+    document.getElementById("best-move").innerHTML = moves;
+  }
+};

@@ -21,7 +21,8 @@ h2 {
 }
 
 .timer,
-.moves {
+.moves,
+.score {
   text-align: center;
   margin: 0 10px;
   background-color: #ffc107;

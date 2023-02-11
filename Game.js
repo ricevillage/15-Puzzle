@@ -11,6 +11,7 @@ export class Game {
     this.intervalId;
     this.elapsedTime = 0;
     this.timerRunning = false;
+    this.formattedTime = 0;
   }
 
   start() {
@@ -38,10 +39,11 @@ export class Game {
       this.elapsedTime++;
       const minutes = Math.floor(this.elapsedTime / 60);
       const seconds = this.elapsedTime % 60;
-      const formattedTime = `Time: ${String(minutes).padStart(2, "0")}:${String(
+      this.formattedTime = `${String(minutes).padStart(2, "0")}:${String(
         seconds
       ).padStart(2, "0")}`;
-      document.querySelector(".timer").innerHTML = formattedTime;
+      document.getElementById("timer").innerHTML = this.formattedTime;
+      console.log(this.getUnformatedTime());
     }, 1000);
   }
 
@@ -65,7 +67,25 @@ export class Game {
     }
 
     if (this.isSolved()) {
-      movesSpan.innerText = `Solved in ${this.getMoves()} Moves`;
+      const currentMoves = this.getMoves();
+      const currentTime = this.getUnformatedTime();
+
+      const bestTime = localStorage.getItem("bestTime") || Infinity;
+      const bestMoves = localStorage.getItem("bestMoves") || Infinity;
+
+      if (
+        currentTime < bestTime ||
+        (currentTime === bestTime && currentMoves < bestMoves)
+      ) {
+        movesSpan.innerText = `Solved in ${currentMoves} Moves`;
+
+        localStorage.setItem("bestTime", currentTime);
+        localStorage.setItem("bestMoves", currentMoves);
+
+        document.getElementById("best-timer").innerHTML = this.getTime();
+        document.getElementById("best-move").innerHTML = currentMoves;
+      }
+
       this.resetTimer();
       return;
     }
@@ -85,6 +105,13 @@ export class Game {
     }
   }
 
+  getUnformatedTime() {
+    const [minutes, seconds] = this.formattedTime
+      .split(":")
+      .map((val) => parseInt(val));
+    return minutes * 60 + seconds;
+  }
+
   isSolved() {
     return this.board.isSolved();
   }
@@ -95,6 +122,10 @@ export class Game {
 
   getMoves() {
     return this.moves;
+  }
+
+  getTime() {
+    return this.formattedTime;
   }
 
   setupKeyboardListeners() {
