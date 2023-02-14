@@ -9,7 +9,7 @@ export class Board {
     for (let i = 0; i < TILE_COUNT; i++) {
       this.tiles.push(new Tile(i + 1));
     }
-    this.emptyTileIndex = TILE_COUNT - 1;
+    this.emptyTileIndex = TILE_COUNT;
   }
 
   // randomly rearranges the tiles, and updates the emptyTileIndex accordingly
@@ -18,9 +18,8 @@ export class Board {
       const j = Math.floor(Math.random() * (i + 1));
       [this.tiles[i], this.tiles[j]] = [this.tiles[j], this.tiles[i]];
     }
-    this.emptyTileIndex = this.tiles.findIndex(
-      (tile) => tile.getNumber() === TILE_COUNT
-    );
+
+    this.emptyTileIndex = this.findEmptyTile(this.tiles);
 
     if (!this.isSolvable() || this.isSolved()) this.shuffle();
   }
@@ -75,6 +74,14 @@ export class Board {
 
     // console.log(inversionCount, emptyTileRow + 1);
     return (inversionCount + emptyTileRow + 1) % 2 === 0;
+  }
+
+  findEmptyTile(tiles) {
+    for (let i = 0; i < tiles.length; i++) {
+      if (tiles[i].getNumber() === TILE_COUNT) {
+        return i;
+      }
+    }
   }
 
   tileIndexToCoordinates(tileIndex) {

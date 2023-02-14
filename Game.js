@@ -61,7 +61,7 @@ export class Game {
       this.render();
     }
 
-    if (this.isSolved()) {
+    if (this.isSolved() && this.elapsedTime !== 0) {
       const currentMoves = this.getMoves();
       const currentTime = this.unformatTime(this.getTime());
 
@@ -135,35 +135,38 @@ export class Game {
 
   setupKeyboardListeners() {
     document.addEventListener("keydown", (event) => {
-      const emptyTileIndex = this.board.emptyTileIndex;
-
-      switch (event.key) {
-        case "ArrowUp":
-          if (emptyTileIndex < 12) {
-            this.makeMove(emptyTileIndex + 4);
-          }
-          break;
-        case "ArrowDown":
-          if (emptyTileIndex > 3) {
-            this.makeMove(emptyTileIndex - 4);
-          }
-          break;
-        case "ArrowLeft":
-          // if emptyTileIndex is NOT at the right-most edge
-          if (emptyTileIndex % 4 !== 3) {
-            this.makeMove(emptyTileIndex + 1);
-          }
-          break;
-        case "ArrowRight":
-          // if emptyTileIndex is NOT at the left-most edge
-          if (emptyTileIndex % 4 !== 0) {
-            this.makeMove(emptyTileIndex - 1);
-          }
-          break;
-        default:
-          break;
-      }
-      this.render();
+      this.hashKeyMoves(event.key);
     });
+  }
+
+  hashKeyMoves(key) {
+    const emptyTileIndex = this.board.emptyTileIndex;
+
+    switch (key) {
+      case "ArrowUp":
+        if (emptyTileIndex < 12) {
+          this.makeMove(emptyTileIndex + 4);
+        }
+        break;
+      case "ArrowDown":
+        if (emptyTileIndex > 3) {
+          this.makeMove(emptyTileIndex - 4);
+        }
+        break;
+      case "ArrowLeft":
+        // if emptyTileIndex is NOT at the right-most edge
+        if (emptyTileIndex % 4 !== 3) {
+          this.makeMove(emptyTileIndex + 1);
+        }
+        break;
+      case "ArrowRight":
+        // if emptyTileIndex is NOT at the left-most edge
+        if (emptyTileIndex % 4 !== 0) {
+          this.makeMove(emptyTileIndex - 1);
+        }
+        break;
+      default:
+        break;
+    }
   }
 }
